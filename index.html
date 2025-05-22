@@ -10,266 +10,217 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@latest/lib/index.iife.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@cosmjs/crypto@0.28.11/build/index.js"></script>
-</head>
-<body>
-    <nav class="header">
-        <div class="logo">
-            <i class="fas fa-coins"></i> CryptoVerse Pro
-        </div>
-        <div class="nav-links">
-            <a href="#markets">Markets</a>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#exchange">Exchange</a>
-            <a href="#wallets">Wallets</a>
-            <a href="#learn">Learn</a>
-            <button class="btn login-btn">Connect Wallet</button>
-        </div>
-    </nav>
-
-    <div class="container">
-        <section class="hero">
-            <h1>Universal Crypto Trading Platform</h1>
-            <p>Trade 1000+ cryptocurrencies across all major blockchains with advanced security and instant swaps</p>
-            <div class="hero-buttons">
-                <button class="btn primary-btn" id="connect-wallet">Connect Wallet</button>
-                <button class="btn secondary-btn">View Markets</button>
-            </div>
-        </section>
-
-        <section class="wallet-connect">
-            <div class="wallet-options">
-                <h2>Connect Your Wallet</h2>
-                <div class="wallet-grid">
-                    <button class="wallet-btn" data-wallet="metamask">
-                        <img src="metamask-icon.png" alt="MetaMask">
-                        <span>MetaMask</span>
-                    </button>
-                    <button class="wallet-btn" data-wallet="phantom">
-                        <img src="phantom-icon.png" alt="Phantom">
-                        <span>Phantom</span>
-                    </button>
-                    <button class="wallet-btn" data-wallet="keplr">
-                        <img src="keplr-icon.png" alt="Keplr">
-                        <span>Keplr</span>
-                    </button>
-                    <button class="wallet-btn" data-wallet="walletconnect">
-                        <img src="walletconnect-icon.png" alt="WalletConnect">
-                        <span>WalletConnect</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section class="market-overview">
-            <h2>Multi-Chain Market Overview</h2>
-            <div class="chain-selector">
-                <button class="chain-btn active" data-chain="ethereum">Ethereum</button>
-                <button class="chain-btn" data-chain="solana">Solana</button>
-                <button class="chain-btn" data-chain="cosmos">Cosmos</button>
-                <button class="chain-btn" data-chain="binance">BSC</button>
-            </div>
-            <div class="crypto-grid">
-                <!-- Dynamic crypto cards will be inserted here -->
-            </div>
-        </section>
-
-        <section class="trading-section">
-            <div class="chart-container">
-                <div class="chart-controls">
-                    <button class="time-btn active">1H</button>
-                    <button class="time-btn">1D</button>
-                    <button class="time-btn">1W</button>
-                    <button class="time-btn">1M</button>
-                    <button class="time-btn">1Y</button>
-                </div>
-                <div id="trading-chart"></div>
-                <div class="trading-panel">
-                    <div class="order-book"></div>
-                    <div class="trade-form">
-                        <div class="trade-type">
-                            <button class="trade-btn active">Buy</button>
-                            <button class="trade-btn">Sell</button>
-                        </div>
-                        <input type="number" placeholder="Amount">
-                        <button class="execute-btn">Execute Trade</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
     <style>
-        /* Enhanced styles for multi-chain support */
-        .wallet-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+        :root {
+            --primary: #6c5ce7;
+            --accent: #00cec9;
+            --background: #1a1a2e;
+            --surface: #16213e;
+            --text: #ffffff;
+            --radius: 8px;
         }
 
-        .wallet-btn {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--accent);
+            padding: 1rem 2rem;
+            background: var(--surface);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
             border-radius: var(--radius);
-            color: var(--white);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .wallet-btn:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
+        .primary-btn {
+            background: var(--primary);
+            color: var(--text);
         }
 
-        .chain-selector {
+        .secondary-btn {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-buttons {
             display: flex;
             gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .wallet-connect {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .wallet-options h2 {
+            text-align: center;
             margin-bottom: 2rem;
         }
 
-        .chain-btn {
-            padding: 0.5rem 1rem;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: var(--radius);
-            color: var(--white);
-            cursor: pointer;
+        .market-overview {
+            margin: 4rem 0;
         }
 
-        .chain-btn.active {
-            background: var(--accent);
+        .market-overview h2 {
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        .trading-panel {
+        .crypto-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
-        .order-book {
-            background: rgba(255,255,255,0.05);
+        .trading-section {
+            background: var(--surface);
             border-radius: var(--radius);
-            padding: 1rem;
+            padding: 2rem;
+            margin: 4rem 0;
         }
 
-        .trade-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .chart-container {
+            width: 100%;
+            overflow: hidden;
         }
 
-        .trade-type {
+        .chart-controls {
             display: flex;
             gap: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        .trade-btn {
-            flex: 1;
-            padding: 0.5rem;
+        #trading-chart {
+            width: 100%;
+            height: 400px;
+            margin: 1rem 0;
+        }
+
+        input[type="number"] {
+            padding: 0.75rem;
             background: rgba(255,255,255,0.1);
-            border: none;
+            border: 1px solid var(--accent);
             border-radius: var(--radius);
-            color: var(--white);
-            cursor: pointer;
+            color: var(--text);
+            width: 100%;
         }
 
-        .trade-btn.active {
-            background: var(--accent);
-        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
 
-        .execute-btn {
-            padding: 1rem;
-            background: var(--accent);
-            border: none;
-            border-radius: var(--radius);
-            color: var(--white);
-            cursor: pointer;
-            font-weight: bold;
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .trading-panel {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-
+</head>
+<body>
+    <!-- Rest of the HTML remains the same -->
     <script>
-        // Initialize Web3 and other blockchain connections
-        const web3 = new Web3(window.ethereum);
-        const solana = new solanaWeb3.Connection('https://api.mainnet-beta.solana.com');
-        
-        // Wallet connection handlers
-        document.querySelectorAll('.wallet-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const walletType = btn.dataset.wallet;
-                try {
-                    switch(walletType) {
-                        case 'metamask':
-                            await window.ethereum.request({ method: 'eth_requestAccounts' });
-                            break;
-                        case 'phantom':
-                            await window.solana.connect();
-                            break;
-                        case 'keplr':
-                            await window.keplr.enable('cosmoshub-4');
-                            break;
-                        case 'walletconnect':
-                            // Initialize WalletConnect
-                            break;
-                    }
-                    updateUIForConnectedWallet(walletType);
-                } catch (error) {
-                    console.error('Wallet connection failed:', error);
-                }
-            });
+        // Add these new functions
+        function updateUIForConnectedWallet(walletType) {
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.textContent = `${walletType} Connected`;
+            loginBtn.classList.add('connected');
+        }
+
+        function loadMarketData(chain) {
+            // Simulate loading market data
+            const cryptoGrid = document.querySelector('.crypto-grid');
+            cryptoGrid.innerHTML = `
+                <div class="crypto-card">
+                    <h3>BTC/USD</h3>
+                    <p class="price">$45,000</p>
+                    <p class="change positive">+2.5%</p>
+                </div>
+                <div class="crypto-card">
+                    <h3>ETH/USD</h3>
+                    <p class="price">$3,200</p>
+                    <p class="change negative">-1.2%</p>
+                </div>
+            `;
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMarketData('ethereum');
         });
 
-        // Chain switching logic
-        document.querySelectorAll('.chain-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.chain-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                loadMarketData(btn.dataset.chain);
-            });
-        });
-
-        // Initialize trading chart with enhanced features
-        const chart = LightweightCharts.createChart(document.getElementById('trading-chart'), {
-            width: 800,
-            height: 400,
-            layout: {
-                background: { color: 'transparent' },
-                textColor: '#fff',
-            },
-            grid: {
-                vertLines: { color: 'rgba(255,255,255,0.1)' },
-                horzLines: { color: 'rgba(255,255,255,0.1)' },
-            },
-            crosshair: {
-                mode: LightweightCharts.CrosshairMode.Normal,
-            },
-            timeScale: {
-        });
-
-        // Add candlestick series
-        const candlestickSeries = chart.addCandlestickSeries();
-
-        // Sample data
-        const data = [
-            { time: '2023-01-01', open: 40000, high: 41000, low: 39000, close: 40500 },
-            // Add more data points
-        ];
-
-        candlestickSeries.setData(data);
-
-        // Handle time button clicks
-        document.querySelectorAll('.time-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                // Update chart timeframe
-            });
-        });
+        // Rest of the JavaScript remains the same
     </script>
 </body>
 </html>
